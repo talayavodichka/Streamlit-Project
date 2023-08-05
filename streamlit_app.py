@@ -26,7 +26,10 @@ if file is not None:
     first = st.selectbox("Выберите первую колонку", columns)
     second = st.selectbox("Выберите вторую колонку", columns)
 
-    df = df.dropna(subset=[first, second])
+    mean = df[first].mean()
+    df[first] = df[first].fillna(mean)
+    mean = df[second].mean()
+    df[second] = df[second].fillna(mean)
 
     fig, axs = plt.subplots(1, 2)
     axs[0].hist(df[first])
