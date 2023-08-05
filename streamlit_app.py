@@ -1,4 +1,6 @@
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy.stats import ttest_ind, chi2_contingency
 import streamlit as st
