@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from scipy.stats import ttest_ind, chi2_contingency
+from scipy.stats import mannwhitneyu, chi2_contingency
 import streamlit as st
 
 st.set_page_config(page_title="Streamlit Project", page_icon=":chart_with_upwards_trend:", layout="wide")
@@ -38,12 +38,12 @@ if file is not None:
     axs[1].set_title(second)
     st.pyplot(fig)
 
-    tests = ["Т-критерий Стьюдента", "Критерий Хи-квадрат"]
+    tests = ["Тест Манна-Уитни", "Критерий Хи-квадрат"]
     test = st.selectbox("Выберите алгоритм теста гипотезы", tests)
 
-    if test == "Т-критерий Стьюдента":
-        _, pvalue = ttest_ind(df[first], df[second])
-        st.write(f"Результат Т-теста: {pvalue:.3f}")
+    if test == "Тест Манна-Уитни":
+        _, pvalue = mannwhitneyu(df[first], df[second])
+        st.write(f"Результат теста Манна-Уитни: {pvalue:.3f}")
     elif test == "Критерий Хи-квадрат":
         contingency_table = pd.crosstab(df[first], df[second])
         _, pvalue, _, _ = chi2_contingency(contingency_table)
