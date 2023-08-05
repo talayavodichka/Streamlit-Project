@@ -10,7 +10,7 @@ st.markdown("""
 <style>
 body {
     color: #444;
-    background-color: #fff;
+    background-color: #000;
 }
 h1, h2, h3 {
     color: #444;
@@ -26,6 +26,8 @@ if file is not None:
     first = st.selectbox("Выберите первую колонку", columns)
     second = st.selectbox("Выберите вторую колонку", columns)
 
+    df = df.dropna(subset=[first, second])
+
     fig, axs = plt.subplots(1, 2)
     axs[0].hist(df[first])
     axs[0].set_title(first)
@@ -38,10 +40,10 @@ if file is not None:
 
     if test == "Т-критерий Стьюдента":
         _, pvalue = ttest_ind(df[first], df[second])
-        st.write(f"**Результат Т-теста:** {pvalue:.3f}")
+        st.write(f"Результат Т-теста: {pvalue:.3f}")
     elif test == "Критерий Хи-квадрат":
         contingency_table = pd.crosstab(df[first], df[second])
         _, pvalue, _, _ = chi2_contingency(contingency_table)
-        st.write(f"**Результат Хи-квадрат теста:** {pvalue:.3f}")
+        st.write(f"Результат Хи-квадрат теста: {pvalue:.3f}")
 else:
     st.write("Загрузите датасет (CSV)")
