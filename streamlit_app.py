@@ -26,10 +26,17 @@ if file is not None:
     first = st.selectbox("Выберите первую колонку", columns)
     second = st.selectbox("Выберите вторую колонку", columns)
 
-    mean = df[first].mean()
-    df[first] = df[first].fillna(mean)
-    mean = df[second].mean()
-    df[second] = df[second].fillna(mean)
+    if df[first].dtype == 'object':
+        st.write(f"Колонка {first} содержит нечисловые значения. Выберите другую колонку.")
+    elif df[first].isnull().sum() > 0:
+        mean = df[first].mean()
+        df[first] = df[first].fillna(mean)
+
+    if df[second].dtype == 'object':
+        st.write(f"Колонка {second} содержит нечисловые значения. Выберите другую колонку.")
+    elif df[second].isnull().sum() > 0:
+        mean = df[second].mean()
+        df[second] = df[second].fillna(mean)
 
     fig, axs = plt.subplots(1, 2)
     axs[0].hist(df[first])
